@@ -1,0 +1,21 @@
+version: "3.2"
+services:
+  apache_php:
+    build: './apache/'
+    ports:
+      - "8080:80"
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8181:8080"
+    volumes:
+      - ./nginx/httpd.conf:/etc/nginx/nginx.conf
+      - ./html:/var/www/html
+    depends_on:
+      - phpfpm
+  phpfpm:
+    image: php:7.2-fpm
+    volumes:
+      - ./html:/var/www/html
+    ports:
+      - 9000:9000
